@@ -4,10 +4,13 @@ from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from direct.actor.Actor import Actor
 
-class MyApp(ShowBase):
+class WalkingPanda(ShowBase):
 
-    def __init__(self):
+    def __init__(self, no_rotate = False):
         ShowBase.__init__(self)
+
+        # Disable mouse controlling camera
+        self.disableMouse()
 
         # Load the environment model
         self.scene = self.loader.loadModel("models/environment")
@@ -16,9 +19,12 @@ class MyApp(ShowBase):
         # Apply scale and position transforms on the model
         self.scene.setScale(0.25, 0.25, 0.25)
         self.scene.setPos(-8, 42, 0)
+        # Set default position for camera
+        self.camera.setPos(0, -20, 3)
 
         # Add the spinCameraTask procedure to the task manager.
-        self.taskMgr.add(self.spinCameraTask, "SpinCameraTask")
+        if (no_rotate == False):
+            self.taskMgr.add(self.spinCameraTask, "SpinCameraTask")
 
         # Load and transform the panda actor.
         self.pandaActor = Actor("models/panda-model", {"walk": "models/panda-walk4"})
@@ -37,5 +43,3 @@ class MyApp(ShowBase):
         return Task.cont
 
 
-app = MyApp()
-app.run()
