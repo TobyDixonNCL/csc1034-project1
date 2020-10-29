@@ -6,7 +6,7 @@ from direct.actor.Actor import Actor
 
 class WalkingPanda(ShowBase):
 
-    def __init__(self, no_rotate = False):
+    def __init__(self, no_rotate = False, scale = 1, sound_on = True):
         ShowBase.__init__(self)
 
         # Disable mouse controlling camera
@@ -28,8 +28,15 @@ class WalkingPanda(ShowBase):
 
         # Load and transform the panda actor.
         self.pandaActor = Actor("models/panda-model", {"walk": "models/panda-walk4"})
-        self.pandaActor.setScale(0.005, 0.005, 0.005)
+        self.pandaActor.setScale(0.005 * scale, 0.005 * scale, 0.005 * scale)
         self.pandaActor.reparentTo(self.render)
+
+        # Check for sound and play
+        if (sound_on == True):
+            ambience = self.loader.loadSfx("ambience.mp3")
+            ambience.setVolume(0.5)
+            ambience.setLoop(True)
+            ambience.play()
 
         # Loop its animation.
         self.pandaActor.loop("walk")
