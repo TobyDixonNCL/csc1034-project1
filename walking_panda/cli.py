@@ -6,8 +6,13 @@ def cli():
     parser.add_argument("--no-rotate", help = "Suppress Rotation",
                         action = "store_true")
 
-    args = parser.parse_args()
+    parser.add_argument("--scale", type=int, help = "Scale the panda",
+                        default='1')
 
+    parser.add_argument("--sound-on", help = "Turn sound off",
+                        action = "store_true")
+
+    args = parser.parse_args()
     walking = panda.WalkingPanda(**vars(args))
     walking.run()
 
