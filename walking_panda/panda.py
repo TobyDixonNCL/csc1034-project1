@@ -6,7 +6,7 @@ from direct.actor.Actor import Actor
 
 class WalkingPanda(ShowBase):
 
-    def __init__(self, no_rotate = False, scale = 1, sound_on = True):
+    def __init__(self, no_rotate = False, scale = 1, sound_on = True, flip = False, panda_rotate = False):
         ShowBase.__init__(self)
 
         # Disable mouse controlling camera
@@ -31,6 +31,13 @@ class WalkingPanda(ShowBase):
         self.pandaActor.setScale(0.005 * scale, 0.005 * scale, 0.005 * scale)
         self.pandaActor.reparentTo(self.render)
 
+        if (panda_rotate == True):
+            self.taskMgr.add(self.rotatePandaTask, "rotatePandaTask")
+
+        if (flip == True):
+            self.pandaActor.setHpr(0, 0, 180)
+            self.pandaActor.setPos(0, 0, 3)
+
         # Check for sound and play
         if (sound_on == True):
             ambience = self.loader.loadSfx("ambience.mp3")
@@ -49,4 +56,8 @@ class WalkingPanda(ShowBase):
         self.camera.setHpr(angleDegrees, 0, 0)
         return Task.cont
 
+    def rotatePandaTask(self, task):
+        angleDegrees = task.time * 12.0
+        self.pandaActor.setHpr(angleDegrees, 0, 0)
+        return Task.cont
 
