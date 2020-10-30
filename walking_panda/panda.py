@@ -31,9 +31,11 @@ class WalkingPanda(ShowBase):
         self.pandaActor.setScale(0.005 * scale, 0.005 * scale, 0.005 * scale)
         self.pandaActor.reparentTo(self.render)
 
+        # Check if panda should rotate
         if (panda_rotate == True):
             self.taskMgr.add(self.rotatePandaTask, "rotatePandaTask")
 
+        # Check if panda should be flipped
         if (flip == True):
             self.pandaActor.setHpr(0, 0, 180)
             self.pandaActor.setPos(0, 0, 3)
@@ -56,6 +58,7 @@ class WalkingPanda(ShowBase):
         self.camera.setHpr(angleDegrees, 0, 0)
         return Task.cont
 
+    # Define a procedure to rotate the panda
     def rotatePandaTask(self, task):
         angleDegrees = task.time * 12.0
         self.pandaActor.setHpr(angleDegrees, 0, 0)
